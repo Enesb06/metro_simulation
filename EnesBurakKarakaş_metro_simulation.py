@@ -48,13 +48,23 @@ class MetroAgi:
             if mevcut_istasyon in ziyaret_edildi:
                 continue
             ziyaret_edildi.add(mevcut_istasyon)
+
+            for komsu, _in mevcut_istasyon.komsular:
+                if komsu not in ziyaret_edildi:
+            kuyruk.append((komsu, rota + [komsu]))
+            
+        return None    
+
+                
+
+            
             
 
-        ziyaret_edildi = {baslangic}        
+               
 
 
     def en_hizli_rota_bul(self, baslangic_id: str, hedef_id: str) -> Optional[Tuple[List[Istasyon], int]]:
-        """A* algoritması kullanarak en hızlı rotayı bulur
+        """A* algoritması kullanarak en hızlı rotayı bul
         
         Bu fonksiyonu tamamlayın:
         1. Başlangıç ve hedef istasyonların varlığını kontrol edin
