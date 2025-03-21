@@ -30,25 +30,26 @@ class MetroAgi:
         istasyon2.komsu_ekle(istasyon1, sure)
     
     def en_az_aktarma_bul(self, baslangic_id: str, hedef_id: str) -> Optional[List[Istasyon]]:
-        """BFS algoritması kullanarak en az aktarmalı rotayı bulur
-        
-        Bu fonksiyonu tamamlayın:
-        1. Başlangıç ve hedef istasyonların varlığını kontrol edin
-        2. BFS algoritmasını kullanarak en az aktarmalı rotayı bulun
-        3. Rota bulunamazsa None, bulunursa istasyon listesi döndürün
-        4. Fonksiyonu tamamladıktan sonra, # TODO ve pass satırlarını kaldırın
-        
-        İpuçları:
-        - collections.deque kullanarak bir kuyruk oluşturun, HINT: kuyruk = deque([(baslangic, [baslangic])])
-        - Ziyaret edilen istasyonları takip edin
-        - Her adımda komşu istasyonları keşfedin
-        """
-        # TODO: Bu fonksiyonu tamamlayın
-        pass
+
         if baslangic_id not in self.istasyonlar or hedef_id not in self.istasyonlar:
             return None
+        
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
+
+        kuyruk=deque([(baslangic,[baslangic])])
+        ziyaret_edildi=set()
+
+        while kuyruk:
+            mevcut_istasyon , rota=kuyruk.popleft()
+
+            if mevcut_istasyon == hedef:
+                return rota
+            if mevcut_istasyon in ziyaret_edildi:
+                continue
+            ziyaret_edildi.add(mevcut_istasyon)
+            
+
         ziyaret_edildi = {baslangic}        
 
 
