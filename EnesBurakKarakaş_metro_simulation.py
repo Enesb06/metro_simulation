@@ -41,6 +41,7 @@ class MetroAgi:
         ziyaret_edildi=set()
 
         while kuyruk:
+
             mevcut_istasyon , rota=kuyruk.popleft()
 
             if mevcut_istasyon == hedef:
@@ -49,43 +50,45 @@ class MetroAgi:
                 continue
             ziyaret_edildi.add(mevcut_istasyon)
 
-            for komsu, _in mevcut_istasyon.komsular:
-                if komsu not in ziyaret_edildi:
-            kuyruk.append((komsu, rota + [komsu]))
-            
+            for komsu, _ in mevcut_istasyon.komsular:
+                 if komsu not in ziyaret_edildi:
+                      kuyruk.append((komsu, rota + [komsu]))
         return None    
-
-                
-
-            
-            
-
-               
-
-
+    
+        
     def en_hizli_rota_bul(self, baslangic_id: str, hedef_id: str) -> Optional[Tuple[List[Istasyon], int]]:
-        """A* algoritması kullanarak en hızlı rotayı bul
         
-        Bu fonksiyonu tamamlayın:
-        1. Başlangıç ve hedef istasyonların varlığını kontrol edin
-        2. A* algoritmasını kullanarak en hızlı rotayı bulun
-        3. Rota bulunamazsa None, bulunursa (istasyon_listesi, toplam_sure) tuple'ı döndürün
-        4. Fonksiyonu tamamladıktan sonra, # TODO ve pass satırlarını kaldırın
-        
-        İpuçları:
-        - heapq modülünü kullanarak bir öncelik kuyruğu oluşturun, HINT: pq = [(0, id(baslangic), baslangic, [baslangic])]
-        - Ziyaret edilen istasyonları takip edin
-        - Her adımda toplam süreyi hesaplayın
-        - En düşük süreye sahip rotayı seçin
-        """
-        # TODO: Bu fonksiyonu tamamlayın
-        pass
         if baslangic_id not in self.istasyonlar or hedef_id not in self.istasyonlar:
             return None
 
         baslangic = self.istasyonlar[baslangic_id]
         hedef = self.istasyonlar[hedef_id]
+
+        pq = [(0, id(baslangic), baslangic, [baslangic])]
         ziyaret_edildi = set()
+
+        while pq:
+            toplam_sure, _, mevcut_istasyon, rota = heapq.heappop(pq)
+
+
+            if mevcut_istasyon == hedef:
+                return rota, toplam_sure
+            
+
+            if mevcut_istasyon in ziyaret_edildi:
+                continue
+
+
+        ziyaret_edildi.add(mevcut_istasyon)
+
+        for komsu, sure in mevcut_istasyon.komsular:
+            if komsu not in ziyaret_edildi:
+                yeni_toplam_sure = toplam_sure + sure
+                heapq.heappush(pq, (yeni_toplam_sure, id(komsu), komsu, rota + [komsu]))
+
+        return None  # Rota bulunamadı
+    
+    
 
 # Örnek Kullanım
 if __name__ == "__main__":
